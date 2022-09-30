@@ -1,0 +1,26 @@
+#upgrade the sysem
+sudo apt-get update && sudo apt-get -y dist-upgrade
+#get FF
+snap remove firefox
+sudo add-apt-repository ppa:ubuntu-mozilla-daily/ppa
+sudo apt-get update && sudo apt-get -y install firefox-trunk
+#Install brave, for a cronium browser
+sudo apt install apt-transport-https curl
+
+sudo curl -fsSLo /usr/share/keyrings/brave-browser-nightly-archive-keyring.gpg https://brave-browser-apt-nightly.s3.brave.com/brave-browser-nightly-archive-keyring.gpg
+
+echo "deb [signed-by=/usr/share/keyrings/brave-browser-nightly-archive-keyring.gpg arch=amd64] https://brave-browser-apt-nightly.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-nightly.list
+
+sudo apt update
+
+sudo apt install brave-browser-nightly
+#Build orca from source
+#make sure sources are enabled in sources.list, then...
+sudo apt-get build-dep orca
+mkdir ~/src
+cd ~/src
+git clone https://github.com/GNOME/orca
+cd ./orca
+./autogen.sh
+make
+sudo make install
